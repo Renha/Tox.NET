@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tox", "Tox\Tox.csproj", "{32D8E875-594F-48CE-AA9B-0EDB18EDD2A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tox.Test", "Tox.Test\Tox.Test.csproj", "{79B3D861-7739-483D-9035-E421167CBCB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tox.Sodium", "Tox.Sodium\Tox.Sodium.csproj", "{A385B0E0-9659-4135-9641-291384EB4944}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{32D8E875-594F-48CE-AA9B-0EDB18EDD2A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32D8E875-594F-48CE-AA9B-0EDB18EDD2A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32D8E875-594F-48CE-AA9B-0EDB18EDD2A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32D8E875-594F-48CE-AA9B-0EDB18EDD2A7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79B3D861-7739-483D-9035-E421167CBCB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79B3D861-7739-483D-9035-E421167CBCB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79B3D861-7739-483D-9035-E421167CBCB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79B3D861-7739-483D-9035-E421167CBCB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A385B0E0-9659-4135-9641-291384EB4944}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A385B0E0-9659-4135-9641-291384EB4944}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A385B0E0-9659-4135-9641-291384EB4944}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A385B0E0-9659-4135-9641-291384EB4944}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

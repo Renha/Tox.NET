@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{32D8E875-594F-48CE-AA9B-0EDB18EDD2A7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Tox</RootNamespace>
+    <AssemblyName>Tox.NET</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Network\ToxSocket.cs" />
+    <Compile Include="Network\Dht\Dht.cs" />
+    <Compile Include="Network\Dht\DhtFriend.cs" />
+    <Compile Include="Network\NetCore.cs" />
+    <Compile Include="Tox.cs" />
+    <Compile Include="Tools.cs" />
+    <Compile Include="Network\PacketHandler.cs" />
+    <Compile Include="Network\Packets\IToxPacket.cs" />
+    <Compile Include="Network\Packets\PacketID.cs" />
+    <Compile Include="Network\Packets\Requests\GetNodesRequest.cs" />
+    <Compile Include="Network\Packets\Responses\BootstrapInfoResponse.cs" />
+    <Compile Include="Network\Dht\NodeID.cs" />
+    <Compile Include="Network\Packets\Responses\SendNodesResponse.cs" />
+    <Compile Include="Network\Dht\NodeStatus.cs" />
+    <Compile Include="Extensions\IPAddressExtensions.cs" />
+    <Compile Include="Network\Dht\Ping.cs" />
+    <Compile Include="Network\Packets\PingPacket.cs" />
+    <Compile Include="Network\Packets\Requests\PingRequest.cs" />
+    <Compile Include="Network\Packets\Responses\PingResponse.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Network\" />
+    <Folder Include="Network\Dht\" />
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Tox.Sodium\Tox.Sodium.csproj">
+      <Project>{A385B0E0-9659-4135-9641-291384EB4944}</Project>
+      <Name>Tox.Sodium</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
