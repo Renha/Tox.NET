@@ -71,6 +71,17 @@ namespace Tox.Network
                             try { received = Socket.ReceiveFrom(buffer, ref endpoint); }
                             catch { continue; /* can happen if the buffer is too small */ }
 
+                            if (received < buffer.Length)
+                            {
+                                byte[] newBuffer = new byte[received];
+                                Array.Copy(buffer, 0, newBuffer, 0, newBuffer.Length);
+                                buffer = newBuffer;
+                            }
+                            else if (received > buffer.Length)
+                            {
+                                throw new Exception("Received more data than our buffer could hold, amazing");
+                            }
+
                             HandleData((IPEndPoint)endpoint, buffer);
                         }
 
