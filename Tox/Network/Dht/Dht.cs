@@ -13,6 +13,7 @@ namespace Tox.Network
         private List<DhtFriend> _friends = new List<DhtFriend>(64);
         private object _friendsLock = new object();
         private NetCore _net;
+        private DateTime _lastGetNodes;
 
         public KeyPair KeyPair { get; private set; }
 
@@ -45,7 +46,23 @@ namespace Tox.Network
         {
             lock (_friendsLock)
             {
-                var friend = _friends.FirstOrDefault((f) => f.PublicKey.Equals(publicKey) || f.EndPoint.Equals(endpoint));
+                var friend = _friends.FirstOrDefault((f) => f.PublicKey.Equals((NodeID)publicKey));
+                if (friend == null)
+                    return null;
+
+                //check if the endpoint is still the same, if not, update it
+                if (!friend.EndPoint.Equals(endpoint))
+                    friend.EndPoint = endpoint;
+
+                return friend;
+            }
+        }
+
+        private DhtFriend AddNode(IPEndPoint endpoint, byte[] publicKey)
+        {
+            lock (_friendsLock)
+            {
+                var friend = GetNode(endpoint, publicKey);
                 if (friend != null)
                     return friend;
 
@@ -79,16 +96,38 @@ namespace Tox.Network
             }
         }
 
-        public void DoPings()
+        public void Do()
         {
             lock (_friendsLock)
             {
+                //send pings if needed
                 var now = DateTime.Now;
+                var toRemove = new List<DhtFriend>();
 
                 foreach (var friend in _friends)
                 {
-                    if ((now - friend.LastPingTime).TotalSeconds >= 60)
+                    if ((now - friend.LastSentPingTime).TotalSeconds >= 60)
+                    {
                         SendPingRequest(friend);
+                        continue;
+                    }
+
+                    //check for timeout
+                    if ((now - friend.LastPingTime).TotalSeconds >= 122 && (now - friend.LastSentPingTime).TotalSeconds >= 30)
+                    {
+                        toRemove.Add(friend);
+                        continue;
+                    }
+                }
+
+                foreach (var friend in toRemove)
+                    _friends.Remove(friend);
+
+                //send one getnodes request to a random node every 20 seconds
+                if ((now - _lastGetNodes).TotalSeconds >= 20 && _friends.Count != 0)
+                {
+                    int index = new Random().Next(_friends.Count);
+                    SendGetNodes(_friends[index], KeyPair.PublicKey);
                 }
             }
         }
@@ -114,7 +153,7 @@ namespace Tox.Network
             if (_net.Ipv6Enabled)
                 endpoint.Address = endpoint.Address.MapToIPv6();
 
-            var friend = GetNode(endpoint, publicKey);
+            var friend = AddNode(endpoint, publicKey);
             SendGetNodes(friend, publicKey);
         }
 
@@ -124,6 +163,7 @@ namespace Tox.Network
             friend.AddPing(packet.PingID);
 
             _net.SendPacket(friend, packet);
+            _lastGetNodes = DateTime.Now;
         }
 
         private void SendPingRequest(DhtFriend friend)
@@ -160,6 +200,10 @@ namespace Tox.Network
 
             foreach (var node in packet.Nodes)
             {
+                //don't send getnodes request to nodes we already know
+                if (GetNode(node.Item1, node.Item2) != null)
+                    continue;
+
                 //we don't want ipv6 address to end up in our list if we have ipv6 disabled
                 if (!_net.Ipv6Enabled && node.Item1.Address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
                     continue;

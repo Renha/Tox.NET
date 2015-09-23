@@ -6,10 +6,10 @@ using System.Net;
 namespace Tox.Test
 {
     [TestFixture()]
-    public class Test
+    public class ToxTest
     {
         [Test()]
-        public void TestCase()
+        public void BasicTest()
         {
             var tox1 = new Tox(true);
             tox1.Start();

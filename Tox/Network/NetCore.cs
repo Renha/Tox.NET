@@ -84,9 +84,8 @@ namespace Tox.Network
 
                             HandleData((IPEndPoint)endpoint, buffer);
                         }
-
-                        //check if it's time to send pings again
-                        _dht.DoPings();
+                            
+                        _dht.Do();
 
                         await Task.Delay(50);
                     }

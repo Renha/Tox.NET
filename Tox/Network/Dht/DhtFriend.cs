@@ -7,10 +7,11 @@ namespace Tox.Network
 {
     internal class DhtFriend
     {
-        public IPEndPoint EndPoint { get; private set; }
+        public IPEndPoint EndPoint { get; set; }
         public NodeID PublicKey { get; private set; }
         public byte[] SharedKey { get; private set; }
         public DateTime LastPingTime { get; private set; }
+        public DateTime LastSentPingTime { get; private set; }
 
         private List<Ping> _pings = new List<Ping>();
 
@@ -24,6 +25,7 @@ namespace Tox.Network
         public void AddPing(ulong pingID)
         {
             _pings.Add(new Ping(DateTime.Now, pingID));
+            LastSentPingTime = DateTime.Now;
         }
 
         public bool ContainsPing(ulong pingID)
