@@ -40,10 +40,10 @@ namespace Tox.Network
             byte[] pingIDBytes = BitConverter.GetBytes(PingID);
             byte[] nonce = CryptoRandom.NextNonce();
 
-            byte[] pingPlain = Tools.ConcatBytes(new byte[] { (byte)ID }, pingIDBytes);
+            byte[] pingPlain = Tools.ConcatBytes((byte)ID, pingIDBytes);
             byte[] encrypted = CryptoBox.EncryptSymmetric(sharedKey, nonce, pingPlain);
 
-            return Tools.ConcatBytes(new byte[] { (byte)ID }, _publicKey, nonce, encrypted);
+            return Tools.ConcatBytes((byte)ID, _publicKey, nonce, encrypted);
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Tox.Network.Packets
             byte[] plain = Tools.ConcatBytes(PublicKey, BitConverter.GetBytes(PingID));
 
             byte[] encrypt = CryptoBox.EncryptSymmetric(sharedKey, nonce, plain);
-            return Tools.ConcatBytes(new byte[] { (byte)ID }, _selfPublicKey, nonce, encrypt);
+            return Tools.ConcatBytes((byte)ID, _selfPublicKey, nonce, encrypt);
         }
 
         public GetNodesRequest(byte[] selfPublicKey, byte[] queryPublicKey)

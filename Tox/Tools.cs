@@ -40,6 +40,21 @@ namespace Tox
             return result;
         }
 
+        public static byte[] ConcatBytes(byte packetID, params byte[][] arrays)
+        {
+            byte[] result = new byte[arrays.Sum(a => a.Length) + 1];
+            result[0] = packetID;
+            int pos = 1;
+
+            foreach (byte[] array in arrays)
+            {
+                Array.Copy(array, 0, result, pos, array.Length);
+                pos += array.Length;
+            }
+
+            return result;
+        }
+
         public static byte[][] SplitBytes(byte[] bytes, params int[] lengths)
         {
             byte[][] pieces = new byte[lengths.Length][];
